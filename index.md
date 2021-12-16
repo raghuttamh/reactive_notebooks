@@ -1,37 +1,12 @@
-## Welcome to GitHub Pages
+# REACTIVE NOTEBOOKS
+**Trying to explore "Pluto.jl" and trying to see what it can do.**
 
-You can use the [editor on GitHub](https://github.com/group4pgs/reactive_notebooks/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+To run these scripts you will need to have install Julia and also add **Pluto.jl** package into it. [More on that here](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwio_di2uuj0AhXUTmwGHfpICmgQFnoECCAQAQ&url=https%3A%2F%2Fgithub.com%2Ffonsp%2FPluto.jl&usg=AOvVaw0XZTk7us_bEY4X-JczN7W4)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Hearts
 
-### Markdown
+https://user-images.githubusercontent.com/36205075/146385221-7c7f003d-d723-462b-a475-a2c330595d75.mp4
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Amplitude Modulation
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/group4pgs/reactive_notebooks/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+https://user-images.githubusercontent.com/36205075/146385208-5b5dcf57-9ac0-4a76-ae4c-913c7fdb081c.mp4
