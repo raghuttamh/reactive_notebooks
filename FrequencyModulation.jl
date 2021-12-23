@@ -14,94 +14,64 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 782f88b6-6e28-4727-8060-66b6d18c9c23
+# ╔═╡ a2cd36ac-63c9-11ec-30cd-bf14b6922166
 begin
 	using Plots
 	using PlutoUI
-
-
-md"""
-This is an example to demonstrate how **Pluto.jl** can be used to demostrate various 
-concepts or functions. You can read more about Pluto.jl [here](https://github.com/fonsp/Pluto.jl)
-
-# Amplitude Modulation
-One of the most common technique used to transmit signals with Radio wave. In this the Amplitude of Carrier wave is varied in proportional to that to the Message Signal that needs to be transmitted. It is widely used because of this simplicity. 
-
-It is given by the formula
-
-$y(t) = [1+m cos(2 \pi f_{m}t+\phi)]*A sin(2 \pi f_{c}t)$
-where $m$ is the Modulating Index and $f_c,f_m$ being the Frequencies of Carrier 	wave and Modulating Wave Respectively
-
-
-
-
-##### Lets have a look on what happens when we change these parameters
-"""
-
 end
 
-# ╔═╡ a6d3f58a-f609-4b41-bde6-dfb90290ea05
+# ╔═╡ 20724f1b-a411-4499-bbe9-5ebcd6e23368
 md"""
-Carrier Wave Frequency"""
+Amplitude of Modulating Wave"""
 
-# ╔═╡ a2f8a72b-ab41-4b6b-9561-32206ad64561
-@bind fC Slider(10:100,default = 50)
+# ╔═╡ 28ffcd79-19cf-42bc-902c-2c60de545721
+@bind Am Slider(0.5:0.1:3,default = 1)
 
-# ╔═╡ bf38d980-1a90-4b76-aa6d-ac03dd12af3d
-md"""Modulating Wave Frequency"""
+# ╔═╡ 2f3b6ea3-04dc-42aa-80ed-b4d79c2bf8ae
+md"""
+Amplitude of Carrier Wave"""
 
-# ╔═╡ f75eec0f-10ea-4bc0-96cc-0633a412021a
-@bind fM Slider(1:10, default = 5)
+# ╔═╡ b46be16b-e178-4ed7-875f-32c699f8e452
+@bind Ac Slider(0.5:0.1:3,default = 1)
 
-# ╔═╡ 485dffe9-a70c-42ac-b87b-29360b1225a1
-md"""Carrier Wave Amplitude"""
+# ╔═╡ 6f6303c3-3dfb-49bb-8e6a-890e68def21f
+md"""
+Frequency of Modulating Wave"""
 
-# ╔═╡ ec9fba4e-189d-4a1f-9be1-7f82e9d8757e
-@bind AmpC Slider(0.5:0.1:2, default = 1)
+# ╔═╡ 75524885-3607-4213-9c87-a7ce0363bdfb
+@bind fm Slider(0.5:0.5:10,default = 5)
 
-# ╔═╡ 808011de-6ef1-4c93-919d-b04e21f9f5c3
-md"""Modulating Wave Amplitude"""
+# ╔═╡ 886606db-3987-44d3-aee2-edb29b97f297
+md"""
+Frequency of Carrier Wave"""
 
-# ╔═╡ 64952112-a5f1-4b0f-bd79-09778ccc3e9b
-@bind AmpM Slider(0.5:0.1:2, default = 1)
+# ╔═╡ 95a360b1-e59b-448f-affe-b2641b054f33
+@bind fc Slider(10:10:500,default = 100)
 
-# ╔═╡ bc0bf898-9b07-4302-a481-768aa144beda
-md"""Modulation Index"""
+# ╔═╡ 9f11fd7d-392c-4d93-addf-4a949a12b84d
+md"""
+Modulation Constant κ"""
 
-# ╔═╡ bb4b2500-7d0f-46a3-b3e1-bf9d5c59ecde
-@bind m Slider(0.1:0.05:1.50, default = 0.5)
+# ╔═╡ bf2f4a10-f1fc-4b75-935d-ed752a85fbad
+@bind κ Slider(0.5:0.5:7,default = 3)
 
-# ╔═╡ a4fe85bc-47bb-4c55-aebc-0497b37adfca
+# ╔═╡ 21025b21-3417-4dbb-ba83-c6fab7d13d09
 begin
-	ωC = 2*pi*fC;
-	ωM = 2*pi*fM;
-	t = LinRange(0,3*pi,10000);
-	carrier = AmpC*sin.(ωC*t);
-	modul = AmpM*cos.(ωM*t);
-end
-
-# ╔═╡ 388cdd4f-0b6f-45ab-8301-6ee61a09cd94
-begin
-	l = @layout [grid(2,1)];
+	t = LinRange(0,pi,10000);
+	carrier = Ac * sin.(2*pi*fc*t);
+	message = Am * sin.(2*pi*fm*t);
+	l = @layout[grid(2,1)];
 	p1 = plot(carrier,title="Carrier Wave",xlim=(0,1000))
-	p2 = plot(modul,title="Modulating Wave",xlim=(0,1000))
+	p2 = plot(message,title="Modulating Wave",xlim=(0,1000))
 	plot(p1,p2,layout=l)
 end
 
-# ╔═╡ ca8904d0-f94d-42a8-9b50-59a1fe064ede
+# ╔═╡ c251f588-1b1d-4964-830e-28d5e840a2d4
 begin
-	modulated_wave = AmpC*sin.(ωC*t).* (1 .+ m * cos.(ωM* t))
-	plot(modulated_wave,title="Modulated Wave",xlim=(0,1000))
+	fi = fc.+(κ*Am*sin.(2*pi*fm*t))
+	modulated = Ac*sin.(fi)
+	plot(modulated,title="Modulated Wave",xlim=(0,1000))
 end
-
-# ╔═╡ fea312d5-3d49-4bac-8e67-ddf9c101639f
-md"""
-## Demonstration
-
-Here is how this works:
-
-$(LocalResource("AmplitudeModulation.mp4",:autoplay => "", :loop=>""))
-"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -110,8 +80,8 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
-Plots = "~1.25.2"
-PlutoUI = "~0.7.22"
+Plots = "~1.25.3"
+PlutoUI = "~0.7.27"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -123,9 +93,9 @@ manifest_format = "2.0"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
-git-tree-sha1 = "abb72771fd8895a7ebd83d5632dc4b989b022b5b"
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
 uuid = "6e696c72-6542-2067-7265-42206c756150"
-version = "1.1.2"
+version = "1.1.4"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra"]
@@ -186,9 +156,9 @@ version = "0.12.8"
 
 [[deps.Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "dce3e3fea680869eaa0b774b2e8343e9ff442313"
+git-tree-sha1 = "44c37b4636bc54afac5c574d2d02b625349d6582"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.40.0"
+version = "3.41.0"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -306,9 +276,9 @@ version = "0.62.1"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "fd75fa3a2080109a2c0ec9864a6e14c60cca3866"
+git-tree-sha1 = "f97acd98255568c3c9b416c5a3cf246c1315771b"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.62.0+0"
+version = "0.63.0+0"
 
 [[deps.GeometryBasics]]
 deps = ["EarCut_jll", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
@@ -513,9 +483,9 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "be9eef9f9d78cecb6f262f3c10da151a6c5ab827"
+git-tree-sha1 = "e5718a00af0ab9756305a0392832c8952c7426c1"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.5"
+version = "0.3.6"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
@@ -558,9 +528,9 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 
 [[deps.NaNMath]]
-git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
+git-tree-sha1 = "f755f36b19a5116bb580de457cda0c140153f283"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "0.3.5"
+version = "0.3.6"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
@@ -600,9 +570,9 @@ version = "8.44.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "ae4bbcadb2906ccc085cf52ac286dc1377dceccc"
+git-tree-sha1 = "d7fa6237da8004be601e19bd6666083056649918"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.1.2"
+version = "2.1.3"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -622,21 +592,21 @@ version = "2.0.1"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "Statistics"]
-git-tree-sha1 = "b084324b4af5a438cd63619fd006614b3b20b87b"
+git-tree-sha1 = "e4fe0b50af3130ddd25e793b471cb43d5279e3e6"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.0.15"
+version = "1.1.1"
 
 [[deps.Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun"]
-git-tree-sha1 = "65ebc27d8c00c84276f14aaf4ff63cbe12016c70"
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
+git-tree-sha1 = "7eda8e2a61e35b7f553172ef3d9eaa5e4e76d92e"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.25.2"
+version = "1.25.3"
 
 [[deps.PlutoUI]]
-deps = ["AbstractPlutoDingetjes", "Base64", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "565564f615ba8c4e4f40f5d29784aa50a8f7bbaf"
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
+git-tree-sha1 = "fed057115644d04fba7f4d768faeeeff6ad11a60"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.22"
+version = "0.7.27"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -680,9 +650,9 @@ version = "1.2.2"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
-git-tree-sha1 = "4036a3bd08ac7e968e27c203d45f5fff15020621"
+git-tree-sha1 = "8f82019e525f4d5c669692772a6f4b0a58b06a6a"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
-version = "1.1.3"
+version = "1.2.0"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -758,9 +728,9 @@ version = "1.0.1"
 
 [[deps.Tables]]
 deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "TableTraits", "Test"]
-git-tree-sha1 = "fed34d0e71b91734bf0a7e10eb1bb05296ddbcd0"
+git-tree-sha1 = "bb1064c9a84c52e277f1096cf41434b675cd368b"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.6.0"
+version = "1.6.1"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
@@ -787,6 +757,11 @@ deps = ["REPL"]
 git-tree-sha1 = "53915e50200959667e78a92a418594b428dffddf"
 uuid = "1cfade01-22cf-5700-b092-accc4b62d6e1"
 version = "0.4.1"
+
+[[deps.Unzip]]
+git-tree-sha1 = "34db80951901073501137bdbc3d5a8e7bbd06670"
+uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
+version = "0.1.2"
 
 [[deps.Wayland_jll]]
 deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
@@ -1004,20 +979,18 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─782f88b6-6e28-4727-8060-66b6d18c9c23
-# ╟─a6d3f58a-f609-4b41-bde6-dfb90290ea05
-# ╟─a2f8a72b-ab41-4b6b-9561-32206ad64561
-# ╟─bf38d980-1a90-4b76-aa6d-ac03dd12af3d
-# ╟─f75eec0f-10ea-4bc0-96cc-0633a412021a
-# ╟─485dffe9-a70c-42ac-b87b-29360b1225a1
-# ╟─ec9fba4e-189d-4a1f-9be1-7f82e9d8757e
-# ╟─808011de-6ef1-4c93-919d-b04e21f9f5c3
-# ╟─64952112-a5f1-4b0f-bd79-09778ccc3e9b
-# ╟─bc0bf898-9b07-4302-a481-768aa144beda
-# ╟─bb4b2500-7d0f-46a3-b3e1-bf9d5c59ecde
-# ╟─a4fe85bc-47bb-4c55-aebc-0497b37adfca
-# ╠═388cdd4f-0b6f-45ab-8301-6ee61a09cd94
-# ╠═ca8904d0-f94d-42a8-9b50-59a1fe064ede
-# ╟─fea312d5-3d49-4bac-8e67-ddf9c101639f
+# ╟─a2cd36ac-63c9-11ec-30cd-bf14b6922166
+# ╟─20724f1b-a411-4499-bbe9-5ebcd6e23368
+# ╟─28ffcd79-19cf-42bc-902c-2c60de545721
+# ╟─2f3b6ea3-04dc-42aa-80ed-b4d79c2bf8ae
+# ╟─b46be16b-e178-4ed7-875f-32c699f8e452
+# ╟─6f6303c3-3dfb-49bb-8e6a-890e68def21f
+# ╟─75524885-3607-4213-9c87-a7ce0363bdfb
+# ╟─886606db-3987-44d3-aee2-edb29b97f297
+# ╟─95a360b1-e59b-448f-affe-b2641b054f33
+# ╟─9f11fd7d-392c-4d93-addf-4a949a12b84d
+# ╟─bf2f4a10-f1fc-4b75-935d-ed752a85fbad
+# ╟─21025b21-3417-4dbb-ba83-c6fab7d13d09
+# ╠═c251f588-1b1d-4964-830e-28d5e840a2d4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
